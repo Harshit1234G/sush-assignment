@@ -1,0 +1,3 @@
+Customer: Hi, I was trying to book a slot yesterday but the payment failed at the last step.  
+Agent: I’m sorry to hear that. Did you get any error message?  
+Customer: Yes, it just said “transaction declined,” but money was deducted. This is very frustrating.  

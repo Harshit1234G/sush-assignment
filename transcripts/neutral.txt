@@ -1,0 +1,5 @@
+Customer: Hi, I’d like to know what the delivery time is if I order today.  
+Agent: Sure, can I have your pin code?  
+Customer: It’s 560001.  
+Agent: Great, delivery would take about 3–4 business days.  
+Customer: Okay, thanks for the information.  
