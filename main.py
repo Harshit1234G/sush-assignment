@@ -1,5 +1,6 @@
 import os
-import csv
+import pandas as pd
+
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
@@ -31,7 +32,7 @@ def get_summary_and_sentiment(
                 "system", 
                 "ROLE: You are an AI assistant that analyzes customer support call transcripts.\n"
                 "TASK:\n"
-                "1. Summarize the conversation in 1-3 sentences, do not change the customers's intent or add new details.\n"
+                "1. Summarize the conversation in 2-3 sentences, do not change the customers's intent or add new details.\n"
                 "2. Extract the customer's sentiment (exactly one word: Positive, Neutral, or Negative.)\n"
                 "OUTPUT:\n"
                 "Format your response as JSON with two keys:\n"
@@ -84,23 +85,20 @@ def to_csv(
         path (str, optional): File path for CSV. Defaults to 'call_analysis.csv'.
     """
     try:
-        file_exists = os.path.isfile(path)
+        new_row = {
+            'Transcript': transcript.strip(),
+            'Summary': response.get('summary', ''),
+            'Sentiment': response.get('sentiment', '')
+        }
 
-        with open(path, 'a', encoding= 'utf-8', newline= '') as csvfile:
-            writer = csv.writer(
-                csvfile,
-                quoting= csv.QUOTE_ALL
-            )
+        if os.path.isfile(path):
+            df = pd.read_csv(path, index_col= 'Index')
+            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index= True)
 
-            # header
-            if not file_exists:
-                writer.writerow(['Transcript', 'Summary', 'Sentiment'])
+        else:
+            df = pd.DataFrame([new_row])
 
-            writer.writerow([
-                transcript.strip(),
-                response.get('summary', ''),
-                response.get('sentiment', '')
-            ])
+        df.to_csv(path, index= True, index_label= 'Index')
 
     except Exception as e:
         print(f'[ERROR] Failed to write to CSV: {e}')
@@ -125,11 +123,10 @@ if __name__ == '__main__':
             continue
 
         print("\n--- Analysis Result ---")
-        print(f"Transcript: {transcript}")
-        print(f"Summary   : {result['summary']}")
-        print(f"Sentiment : {result['sentiment']}")
-        print("------------------------\n")
+        print(f"\nTranscript: {transcript}")
+        print(f"\nSummary   : {result['summary']}")
+        print(f"\nSentiment : {result['sentiment']}")
+        print("\n------------------------\n")
 
         to_csv(transcript, result)
         print(f"✅ Saved to call_analysis.csv\n")
-
