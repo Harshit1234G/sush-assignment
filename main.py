@@ -2,6 +2,7 @@ import os
 import pandas as pd
 
 from dotenv import load_dotenv
+from getpass import getpass
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
@@ -105,11 +106,15 @@ def to_csv(
 
 
 if __name__ == '__main__':
-    load_dotenv()
-
     print('\n📞 Call Transcript Analysis App')
     print('Type/paste a transcript and press Enter.')
     print('Type "exit" or "quit" to quit.\n')
+
+    if load_dotenv():
+        print('.env loaded successfully.')
+
+    else:
+        os.environ['GROQ_API_KEY'] = getpass(f'Enter your GROQ_API_KEY: ')
 
     while True:
         transcript = input('Enter transcript: ').strip()
