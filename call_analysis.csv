@@ -10,3 +10,8 @@ Customer: Yes, it just said “transaction declined,” but money was deducted. 
 6,"Customer: Hi, I was trying to book a slot yesterday but the payment failed at the last step.  
 Agent: I’m sorry to hear that. Did you get any error message?  
 Customer: Yes, it just said “transaction declined,” but money was deducted. This is very frustrating.",Customer experienced a failed payment while booking a slot and is frustrated.,Negative
+7,"Customer: Hi, I’d like to know what the delivery time is if I order today.  
+Agent: Sure, can I have your pin code?  
+Customer: It’s 560001.  
+Agent: Great, delivery would take about 3–4 business days.  
+Customer: Okay, thanks for the information.",Customer inquired about delivery time for an order placed today and received a 3-4 business day estimate.,Neutral
